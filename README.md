@@ -37,6 +37,22 @@ export OPENROUTER_API_KEY="your-key"
 
 Open this folder in Cursor → allow automatic tasks → switch to **Agent** mode.
 
+## Auto codebase sync
+
+Every prompt uses **fresh** repo context — not stale chat memory.
+
+| Event | What happens |
+|-------|----------------|
+| Open project in Cursor | Rebuild codebase index (automatic task) |
+| `git pull` / merge | Git hook → rebuild index |
+| Branch switch | Continue native watcher + git hook |
+| Close & reopen IDE | Full re-index on folder open |
+| AI or you save a file | Incremental index update (built-in) |
+
+**Allow automatic tasks** when Cursor prompts you — required for startup re-index.
+
+Local embeddings (`transformers.js`) power `@codebase` — no extra API key needed.
+
 ## Slash commands
 
 Type `/` in Continue chat:
@@ -58,11 +74,14 @@ Type `/` in Continue chat:
 ```
 .continue/
   config.yaml          ← committed (no secrets)
-  rules/               ← agent, routing, safety
+  rules/               ← agent, codebase-sync, routing, safety
   prompts/             ← slash commands
+scripts/
+  continue-reindex.sh  ← triggers rebuild (git hooks + IDE open)
+.githooks/             ← post-merge, post-checkout
 .env                   ← your key (gitignored)
 .env.example           ← template
-setup.sh               ← installs to ~/.continue/
+setup.sh               ← installs config + git hooks
 ```
 
 ## Security

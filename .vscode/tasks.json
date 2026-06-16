@@ -2,9 +2,23 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "Continue: Reindex codebase on open",
+      "type": "shell",
+      "command": "sleep 6 && bash \"${workspaceFolder}/scripts/continue-reindex.sh\" \"${workspaceFolder}\"",
+      "presentation": {
+        "reveal": "never",
+        "panel": "shared",
+        "close": true,
+        "showReuseMessage": false
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    },
+    {
       "label": "Focus Continue on workspace open",
       "type": "shell",
-      "command": "sleep 2 && osascript -e 'tell application \"Cursor\" to activate' -e 'tell application \"System Events\" to keystroke \"l\" using command down'",
+      "command": "sleep 3 && osascript -e 'tell application \"Cursor\" to activate' -e 'tell application \"System Events\" to keystroke \"l\" using command down'",
       "presentation": {
         "reveal": "never",
         "panel": "shared",

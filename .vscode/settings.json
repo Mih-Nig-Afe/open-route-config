@@ -3,5 +3,8 @@
   "continue.enableNextEdit": true,
   "continue.pauseCodebaseIndexOnStart": false,
   "continue.showInlineTip": true,
-  "task.allowAutomaticTasks": "on"
+  "task.allowAutomaticTasks": "on",
+  "files.watcherExclude": {
+    "**/.continue/.last-sync": true
+  }
 }

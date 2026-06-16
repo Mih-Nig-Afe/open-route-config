@@ -22,6 +22,8 @@ if [[ -z "${OPENROUTER_KEY}" || "${OPENROUTER_KEY}" == "your_openrouter_key_here
 fi
 
 mkdir -p "${CONTINUE_DIR}/rules" "${CONTINUE_DIR}/prompts"
+chmod +x "${REPO_ROOT}/scripts/continue-reindex.sh"
+chmod +x "${REPO_ROOT}/.githooks/"* 2>/dev/null || true
 
 cp "${REPO_ROOT}/.continue/config.yaml" "${CONTINUE_DIR}/config.yaml"
 cp "${REPO_ROOT}/.continue/rules/"*.md "${CONTINUE_DIR}/rules/"
@@ -51,11 +53,17 @@ if [[ ! -f "${ENV_FILE}" ]]; then
   echo "Created ${ENV_FILE} (gitignored — not committed)"
 fi
 
+# Install git hooks for auto re-index on pull/merge/checkout
+if git -C "${REPO_ROOT}" rev-parse --git-dir >/dev/null 2>&1; then
+  git -C "${REPO_ROOT}" config core.hooksPath .githooks
+  echo "✔ Git hooks installed (post-merge, post-checkout → reindex)"
+fi
+
 echo ""
 echo "✔ Installed Pro Dev Agent config to ${CONTINUE_DIR}/"
-echo "✔ Models: 13 free OpenRouter models with routing"
-echo "✔ Rules: agent + routing + safety"
-echo "✔ Prompts: /analyze-codebase, /plan-changes, /verify-changes"
+echo "✔ Codebase embedder: transformers.js (local, no API key)"
+echo "✔ Auto re-index: IDE open, git pull, branch switch, file save"
+echo "✔ Rules: fresh @codebase context on every prompt"
 echo ""
-echo "Next: Restart Cursor → Agent mode → Qwen Coder Pro (Primary)"
+echo "Next: Restart Cursor → allow automatic tasks → Agent mode → Qwen Coder Pro"
 echo "Reload: Continue sidebar → config gear → Reload Config"

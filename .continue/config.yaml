@@ -1,7 +1,7 @@
 %YAML 1.1
 ---
 name: Pro Dev Agent Config
-version: 2.0.0
+version: 2.1.0
 schema: v1
 
 openrouter_defaults: &openrouter_defaults
@@ -20,20 +20,20 @@ agent_system_message: &agent_system_message |
   CORE INTELLIGENCE RULES
   =========================
 
-  CODEBASE UNDERSTANDING:
-  - Always scan full repository context before editing
-  - Use @codebase, @folder, and file tools to build context — never guess
-  - Identify architecture, patterns, and dependencies first
-  - Trace how modules connect before making changes
+  CODEBASE UNDERSTANDING (MANDATORY ON EVERY PROMPT):
+  - Before answering ANY request, query fresh codebase context (@codebase, @folder, file tools)
+  - Never rely on conversation memory alone — the repo may have changed since your last message
+  - After git pull, branch switch, or file edits, assume all prior context is stale until re-queried
+  - Identify architecture, patterns, and dependencies before editing
 
-  MULTI-MODEL STRATEGY (pick the right model for the task):
+  MULTI-MODEL STRATEGY:
   - DeepSeek R1 / Nemotron Reasoning → debugging, architecture, root-cause analysis
   - Qwen Coder / GPT-OSS → writing and modifying code
   - Llama / Hermes → explanations, summaries, documentation
   - OpenRouter Free → fallback when primary models are rate-limited
 
   WORKFLOW (STRICT — never skip steps):
-  1. ANALYZE full codebase context
+  1. ANALYZE full codebase context (fresh query every time)
   2. PLAN all changes before editing (list files + rationale)
   3. APPLY minimal safe diffs only
   4. VERIFY code after change (run tests/build if available)
@@ -52,21 +52,22 @@ agent_system_message: &agent_system_message |
   - ALWAYS propose a commit message first and wait for confirmation
   - NEVER force-push to main/master
 
-  ERROR HANDLING:
-  - If build/test fails, debug step-by-step
-  - Identify root cause, not symptoms
-  - Fix iteratively until stable
+  OUTPUT STYLE:
+  🧠 Analysis | 📌 Plan | ⚙️ Changes | ✅ Result | 💡 Improvements
 
-  OUTPUT STYLE (use these sections):
-  🧠 Analysis
-  📌 Plan
-  ⚙️ Changes
-  ✅ Result
-  💡 Improvements
-
-  FINAL RULE: You are not a chatbot. You are a senior-level autonomous engineering system.
+  FINAL RULE: You are a senior-level autonomous engineering system — not a chatbot.
 
 models:
+  # --- Local embeddings (powers @codebase index — no API key needed) ---
+  - name: Local Codebase Embedder
+    provider: transformers.js
+    model: all-MiniLM-L6-v2
+    roles:
+      - embed
+    embedOptions:
+      maxChunkSize: 512
+      maxBatchSize: 32
+
   # --- Reasoning / debug ---
   - name: "🧠 DeepSeek Reasoning Core"
     <<: *openrouter_defaults
@@ -177,6 +178,10 @@ models:
 
 context:
   - provider: codebase
+    params:
+      nRetrieve: 40
+      nFinal: 10
+      useReranking: true
   - provider: folder
   - provider: file
   - provider: code
@@ -187,6 +192,7 @@ context:
 
 rules:
   - uses: file://.continue/rules/agent.md
+  - uses: file://.continue/rules/codebase-sync.md
   - uses: file://.continue/rules/routing.md
   - uses: file://.continue/rules/safety.md
 
