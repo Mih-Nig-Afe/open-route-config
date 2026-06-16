@@ -1,0 +1,5 @@
+.env
+.env.*
+*.local
+.continue/config.local.yaml
+continue/config.local.yaml

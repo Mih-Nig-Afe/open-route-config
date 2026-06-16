@@ -1,0 +1,19 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Focus Continue on workspace open",
+      "type": "shell",
+      "command": "sleep 2 && osascript -e 'tell application \"Cursor\" to activate' -e 'tell application \"System Events\" to keystroke \"l\" using command down'",
+      "presentation": {
+        "reveal": "never",
+        "panel": "shared",
+        "close": true,
+        "showReuseMessage": false
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    }
+  ]
+}

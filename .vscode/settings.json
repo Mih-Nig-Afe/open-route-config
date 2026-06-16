@@ -1,0 +1,7 @@
+{
+  "continue.enableTabAutocomplete": true,
+  "continue.enableNextEdit": true,
+  "continue.pauseCodebaseIndexOnStart": false,
+  "continue.showInlineTip": true,
+  "task.allowAutomaticTasks": "on"
+}
