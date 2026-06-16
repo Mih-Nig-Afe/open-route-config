@@ -1,0 +1,63 @@
+{
+  "provider": "openrouter",
+  "baseUrl": "https://openrouter.ai/api/v1/cursor",
+  "primaryModel": "qwen/qwen3-coder:free",
+  "models": [
+    {
+      "id": "qwen/qwen3-coder:free",
+      "displayName": "OR: Qwen Coder Pro",
+      "role": "coding",
+      "primary": true
+    },
+    {
+      "id": "qwen/qwen3-next-80b-a3b-instruct:free",
+      "displayName": "OR: Qwen Next 80B",
+      "role": "coding"
+    },
+    {
+      "id": "deepseek/deepseek-r1:free",
+      "displayName": "OR: DeepSeek R1",
+      "role": "reasoning"
+    },
+    {
+      "id": "deepseek/deepseek-chat:free",
+      "displayName": "OR: DeepSeek Chat",
+      "role": "coding"
+    },
+    {
+      "id": "openai/gpt-oss-120b:free",
+      "displayName": "OR: GPT-OSS 120B",
+      "role": "coding"
+    },
+    {
+      "id": "openai/gpt-oss-20b:free",
+      "displayName": "OR: GPT-OSS 20B Fast",
+      "role": "coding"
+    },
+    {
+      "id": "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+      "displayName": "OR: Nemotron Reasoning",
+      "role": "reasoning"
+    },
+    {
+      "id": "meta-llama/llama-3.3-70b-instruct:free",
+      "displayName": "OR: Llama 3.3 70B",
+      "role": "explain"
+    },
+    {
+      "id": "meta-llama/llama-3.2-3b-instruct:free",
+      "displayName": "OR: Llama 3.2 3B Fast",
+      "role": "explain"
+    },
+    {
+      "id": "nousresearch/hermes-3-llama-3.1-405b:free",
+      "displayName": "OR: Hermes 405B",
+      "role": "explain"
+    },
+    {
+      "id": "openrouter/free",
+      "displayName": "OR: Free Router",
+      "role": "fallback"
+    }
+  ]
+}

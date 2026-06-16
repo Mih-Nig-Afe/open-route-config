@@ -1,0 +1,22 @@
+---
+description: Safe edit loop — plan, minimal diffs, verify, no destructive git
+alwaysApply: true
+---
+
+# Change safety
+
+1. **Plan before edit** — list files and rationale
+2. **Minimal diffs** — smallest fix that works
+3. **No drive-by refactors** — don't touch unrelated code
+4. **Verify after change** — run tests/linter/build when available
+5. **Self-correct** — fix failures before declaring done
+
+## Destructive actions
+
+Ask before: deleting files, dropping tables, removing features, changing public APIs.
+
+Never run `rm -rf`, `git reset --hard`, or force-push without explicit approval.
+
+## Terminal
+
+Run commands only when needed for verification or setup.

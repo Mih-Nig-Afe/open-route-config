@@ -1,0 +1,17 @@
+---
+description: OpenRouter model routing — pick the right model for the task
+alwaysApply: true
+---
+
+# Model routing (OpenRouter in Cursor)
+
+| Task | Use model |
+|------|-----------|
+| Debugging, architecture, root-cause | OR: DeepSeek R1, OR: Nemotron Reasoning |
+| Writing/editing code, refactors | OR: Qwen Coder Pro, OR: Qwen Next 80B, OR: GPT-OSS |
+| Explanations, docs, summaries | OR: Llama 3.3, OR: Hermes 405B |
+| Rate-limited / unknown | OR: Free Router |
+
+**Default for Agent:** OR: Qwen Coder Pro
+
+If a task fits a different row, suggest switching models before large work.

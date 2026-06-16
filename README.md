@@ -53,6 +53,27 @@ Every prompt uses **fresh** repo context — not stale chat memory.
 
 Local embeddings (`transformers.js`) power `@codebase` — no extra API key needed.
 
+## Cursor Agent + OpenRouter (native chat)
+
+Same models and agent behavior in **Cursor's built-in Agent** (not just Continue):
+
+```bash
+python3 scripts/setup-cursor-openrouter.py
+# or run ./setup.sh (configures both Continue + Cursor)
+```
+
+Then **restart Cursor** (Cmd+Q) and in Agent chat pick **OR: Qwen Coder Pro**.
+
+| Setting | Value |
+|---------|-------|
+| Provider | OpenRouter via OpenAI BYOK override |
+| Base URL | `https://openrouter.ai/api/v1/cursor` |
+| Default model | `qwen/qwen3-coder:free` |
+| Rules | `.cursor/rules/*.mdc` (also copied to `~/.cursor/rules/`) |
+| Skill | `.cursor/skills/pro-dev-agent/` |
+
+**Note:** Cursor `Auto` and `Composer 2.5` may still use Cursor's built-in models. Select an **OR:** model explicitly for OpenRouter routing.
+
 ## Slash commands
 
 Type `/` in Continue chat:
@@ -77,8 +98,14 @@ Type `/` in Continue chat:
   rules/               ← agent, codebase-sync, routing, safety
   prompts/             ← slash commands
 scripts/
-  continue-reindex.sh  ← triggers rebuild (git hooks + IDE open)
-.githooks/             ← post-merge, post-checkout
+  continue-reindex.sh       ← Continue codebase rebuild
+  setup-cursor-openrouter.py ← Cursor Agent + OpenRouter BYOK
+cursor/
+  openrouter-models.json    ← Cursor model list (no secrets)
+.cursor/
+  rules/                    ← Cursor Agent rules (.mdc)
+  skills/pro-dev-agent/     ← Cursor skill (same workflow as Continue)
+.githooks/                  ← post-merge, post-checkout
 .env                   ← your key (gitignored)
 .env.example           ← template
 setup.sh               ← installs config + git hooks

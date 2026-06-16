@@ -1,0 +1,21 @@
+---
+description: Always use fresh codebase context — never stale chat memory
+alwaysApply: true
+---
+
+# Fresh codebase on every prompt
+
+Cursor indexes the repo automatically. You must still **re-read and search** on every user message.
+
+## Required
+
+1. Search/read the codebase for the user's topic before answering
+2. Before edits, scan related modules and entry points
+3. After you edit files, re-read them before claiming success
+4. After git pull or branch change, invalidate all prior assumptions
+
+## Never
+
+- Answer architecture questions from memory without checking files
+- Assume file contents match an earlier chat message
+- Skip exploration because you "already looked at this"

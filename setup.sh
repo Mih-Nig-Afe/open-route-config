@@ -67,3 +67,8 @@ echo "✔ Rules: fresh @codebase context on every prompt"
 echo ""
 echo "Next: Restart Cursor → allow automatic tasks → Agent mode → Qwen Coder Pro"
 echo "Reload: Continue sidebar → config gear → Reload Config"
+echo ""
+echo "Configuring Cursor OpenRouter (Agent chat)..."
+python3 "${REPO_ROOT}/scripts/setup-cursor-openrouter.py" || {
+  echo "Cursor setup skipped or failed — run: python3 scripts/setup-cursor-openrouter.py"
+}
