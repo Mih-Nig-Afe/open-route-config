@@ -1,5 +1,6 @@
 .env
-.env.*
+.env.local
+.env.*.local
+!.env.example
 *.local
 .continue/config.local.yaml
-continue/config.local.yaml
