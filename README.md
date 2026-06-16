@@ -1,55 +1,74 @@
-# Open Route Config — Continue + OpenRouter
+# Pro Dev Agent — Continue + OpenRouter
 
-Workspace template for running [Continue](https://continue.dev) as a Cursor-level AI coding agent powered by [OpenRouter](https://openrouter.ai) free models.
+Cursor-style autonomous coding with [Continue](https://continue.dev) and free [OpenRouter](https://openrouter.ai) models.
 
-## Models
+## What this gives you (~80–90% of paid-agent UX)
 
-| Model | Role |
-|-------|------|
-| DeepSeek R1 (free) | Reasoning / planning |
-| DeepSeek Chat (free) | General coding |
-| Qwen3 Coder (free) | Primary dev / agent |
-| Llama 3.3 70B (free) | Fast assistant |
-| OpenRouter Auto | Smart routing fallback |
+- Multi-file Agent mode with tool use
+- Full repo context (@codebase, folder, terminal)
+- Model routing (reasoning vs coding vs explanation)
+- Safety loop: analyze → plan → edit → verify
+- Git guardrails: never auto-commit/push
 
-## Quick setup
+## Models (all free tier)
 
-1. Install the **Continue** extension in Cursor (`continue.continue`).
-2. Export your OpenRouter key (never commit it):
+| Role | Models |
+|------|--------|
+| 🧠 Reasoning / debug | DeepSeek R1, Nemotron Reasoning, Nemotron Super 120B |
+| ⚙️ Coding / edits | Qwen Coder Pro, Qwen Next 80B, DeepSeek Chat, GPT-OSS 120B/20B, Dolphin Mistral |
+| 💬 Explain / docs | Llama 3.3 70B, Llama 3.2 3B, Hermes 405B |
+| 🔀 Fallback | OpenRouter Free Router |
+
+**Default for Agent mode:** Qwen Coder Pro (Primary)
+
+## Setup
 
 ```bash
-export OPENROUTER_API_KEY="your-key-here"
+cp .env.example .env          # add your key
+chmod +x setup.sh && ./setup.sh
 ```
 
-3. Run the installer:
+Or export the key:
 
 ```bash
-chmod +x setup.sh
+export OPENROUTER_API_KEY="your-key"
 ./setup.sh
 ```
 
-4. Open this folder in Cursor. Continue should focus automatically (Cmd+L opens chat if not).
-5. In Continue, switch to **Agent** mode and pick **Qwen Coder (Best for Dev)**.
+Open this folder in Cursor → allow automatic tasks → switch to **Agent** mode.
 
-## Agent behavior
+## Slash commands
 
-- Full workspace context (file, code, folder, codebase, terminal)
-- Multi-file edits via Agent mode
-- System rules: analyze → plan → execute → verify
-- Tool use enabled on all OpenRouter models
+Type `/` in Continue chat:
+
+| Command | Purpose |
+|---------|---------|
+| `/analyze-codebase` | Scan repo before editing |
+| `/plan-changes` | Plan diffs before execution |
+| `/verify-changes` | Run post-edit verification |
+
+## Recommended workflow
+
+```
+/analyze-codebase  →  describe task  →  /plan-changes  →  approve  →  edit  →  /verify-changes
+```
 
 ## Files
 
-- `continue/config.yaml` — shareable config template (uses `${OPENROUTER_API_KEY}`)
-- `.continue/rules/agent.md` — autonomous agent instructions
-- `.vscode/settings.json` — Continue + auto-task settings
-- `.vscode/tasks.json` — focuses Continue when workspace opens
-- `setup.sh` — copies config to `~/.continue/` on your machine
+```
+.continue/
+  config.yaml          ← committed (no secrets)
+  rules/               ← agent, routing, safety
+  prompts/             ← slash commands
+.env                   ← your key (gitignored)
+.env.example           ← template
+setup.sh               ← installs to ~/.continue/
+```
 
 ## Security
 
-Do **not** commit API keys. Use `setup.sh` or set `OPENROUTER_API_KEY` in your shell profile. Rotate any key that was ever pasted into chat.
+Never commit `.env` or API keys. Rotate any key exposed in chat.
 
 ## Reload config
 
-After editing config: Continue sidebar → config dropdown → **Reload Config**.
+Continue sidebar → config dropdown → **Reload Config**
